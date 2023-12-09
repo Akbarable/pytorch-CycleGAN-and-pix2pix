@@ -126,12 +126,14 @@ class BaseOptions():
         self.print_options(opt)
     
         # set gpu ids
-        str_ids = opt.gpu_ids.split(',')
-        opt.gpu_ids = [int(str_id) for str_id in str_ids if int(str_id) >= 0]
+        if torch.cuda.is_available():
+            str_ids = opt.gpu_ids.split(',')
+            opt.gpu_ids = [int(str_id) for str_id in str_ids if int(str_id) >= 0]
     
-        if len(opt.gpu_ids) > 0:
-            torch.cuda.set_device(opt.gpu_ids[0])
+            if len(opt.gpu_ids) > 0:
+                torch.cuda.set_device(opt.gpu_ids[0])
     
         self.opt = opt
         return self.opt
+
 
